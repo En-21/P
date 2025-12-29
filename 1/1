@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Buddy</title>
+    <style>
+        :root {
+            --primary: #aee2d7;
+            --secondary: #25D366;
+            --text: #2d5a54;
+            --bg: #f0fdfa;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            text-align: center;
+        }
+
+        header {
+            background-color: var(--primary);
+            padding: 40px 20px 80px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: -60px auto 0;
+            padding: 0 20px 40px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .profile-pic {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 6px solid white;
+            margin-top: -85px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 { color: var(--text); margin: 15px 0; }
+
+        /* Estilo para el área de seguridad */
+        #security-section {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+        }
+
+        input {
+            padding: 12px;
+            width: 80%;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: var(--text);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Los datos sensibles están ocultos por defecto */
+        #private-data {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        .info-item {
+            background-color: #f8fcfb;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .label { font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: bold; }
+        .value { font-size: 1.1rem; font-weight: 600; color: #444; }
+
+        .btn-whatsapp {
+            display: block;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            padding: 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <header>IDENTIFICACIÓN DE MASCOTA</header>
+
+    <div class="container">
+        <div class="profile-card">
+            <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=300" class="profile-pic">
+            <h1>Buddy</h1>
+            <p>Si me encontraste, por favor ingresa el código de mi placa para contactar a mi familia.</p>
+
+            <div id="security-section">
+                <input type="text" id="passInput" placeholder="Ingresa el código aquí">
+                <button onclick="checkPass()">VER DATOS</button>
+                <p id="errorMsg" style="color:red; display:none; font-size:0.8rem; margin-top:5px;">Código incorrecto</p>
+            </div>
+
+            <div id="private-data">
+                <div class="info-item">
+                    <span class="label">Dueño</span>
+                    <span class="value">Ivonne</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Dirección</span>
+                    <span class="value">Zitacuaro 47, GAM, CDMX</span>
+                </div>
+                <a id="waLink" href="#" class="btn-whatsapp">LLAMAR POR WHATSAPP</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkPass() {
+            // AQUÍ COLOCAS TU CLAVE PERSONAL
+            const claveCorrecta = "BUDDY2024"; 
+            const input = document.getElementById('passInput').value;
+            
+            if(input.toUpperCase() === claveCorrecta) {
+                document.getElementById('security-section').style.display = 'none';
+                document.getElementById('private-data').style.display = 'block';
+                // Configuramos el link de WhatsApp después de validar
+                document.getElementById('waLink').href = "https://wa.me/525620410261?text=Hola%20Ivonne,%20tengo%20a%20Buddy";
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
