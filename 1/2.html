@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Buddy</title>
+    <title>Perfil de Mascota</title>
     <style>
         :root {
             --primary: #aee2d7;
@@ -48,13 +48,14 @@
             text-align: center;
         }
 
+        /* Limitar y dar formato a la imagen */
         .profile-pic {
-            width: 130px;
-            height: 130px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             border: 6px solid white;
-            object-fit: cover;
-            background-color: white;
+            object-fit: cover; /* Mantiene la proporción */
+            background-color: #eee;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
@@ -103,7 +104,7 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 1.2rem;
-            margin-top: 30px;
+            margin-top: 15px;
             box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
         }
     </style>
@@ -114,45 +115,92 @@
 
     <div class="container">
         <div class="profile-card">
-            <img src="../img/aneiland_01.jpeg">
+            <img id="petImg" class="profile-pic" alt="Foto de la mascota">
             
-            <h1>Jano</h1>
+            <h1 id="petName"></h1>
 
             <div class="info-list">
                 <div class="info-item">
                     <span class="label">Dueño</span>
-                    <span class="value">Karina Landa Heredia</span>
+                    <span class="value" id="ownerName"></span>
                 </div>
                 <div class="info-item">
                     <span class="label">Teléfono</span>
-                    <span class="value">55 1370 9515</span>
+                    <span class="value" id="ownerPhone"></span>
                 </div>
                 <div class="info-item">
                     <span class="label">Edad</span>
-                    <span class="value">5 años</span>
+                    <span class="value" id="petAge"></span>
                 </div>
                 <div class="info-item">
                     <span class="label">Vacunas</span>
-                    <span class="value">Vermiplex, triple felina, rabia</span>
+                    <span class="value" id="petVax"></span>
                 </div>
                 <div class="info-item">
                     <span class="label">Color</span>
-                    <span class="value">Blanco con gris</span>
+                    <span class="value" id="petColor"></span>
                 </div>
                 <div class="info-item">
                     <span class="label">Sexo</span>
-                    <span class="value">Macho</span>
+                    <span class="value" id="petSex"></span>
                 </div>
                 <div class="info-item">
                     <span class="label">Datos extra</span>
-                    <span class="value">Esterilizado</span>
+                    <span class="value" id="petExtra"></span>
                 </div>
             
-                <a href="https://wa.me/525513709515?text=Hola%20Karina,%20encontré%20a%20Jano" class="btn-whatsapp">
+                <a id="waBtn" href="#" class="btn-whatsapp">
                     AVISAR POR WHATSAPP
                 </a>
             </div>
+        </div>
     </div>
+
+    <script>
+        // CONFIGURACIÓN DE DATOS (Variables)
+        const petData = {
+            name: "Jano",
+            birthDate: "2019-05-15", // Formato: AAAA-MM-DD
+            imgUrl: "../img/aneiland_01.jpeg",
+            owner: "Karina Landa Heredia",
+            phone: "55 1370 9515",
+            vax: "Vermiplex, triple felina, rabia",
+            color: "Blanco con gris",
+            sex: "Macho",
+            extra: "Esterilizado"
+        };
+
+        // FUNCIÓN PARA CALCULAR EDAD
+        function calculateAge(birthday) {
+            const birthDate = new Date(birthday);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age + (age === 1 ? " año" : " años");
+        }
+
+        // ASIGNACIÓN DE DATOS AL HTML
+        document.getElementById('petName').textContent = petData.name;
+        document.getElementById('petImg').src = petData.imgUrl;
+        document.getElementById('ownerName').textContent = petData.owner;
+        document.getElementById('ownerPhone').textContent = petData.phone;
+        document.getElementById('petVax').textContent = petData.vax;
+        document.getElementById('petColor').textContent = petData.color;
+        document.getElementById('petSex').textContent = petData.sex;
+        document.getElementById('petExtra').textContent = petData.extra;
+        
+        // Cálculo de edad dinámico
+        document.getElementById('petAge').textContent = calculateAge(petData.birthDate);
+
+        // Configuración del botón de WhatsApp
+        const cleanPhone = petData.phone.replace(/\s+/g, ''); // Quita espacios del número
+        const waUrl = `https://wa.me/52${cleanPhone}?text=Hola%20${encodeURIComponent(petData.owner)},%20encontré%20a%20${petData.name}`;
+        document.getElementById('waBtn').href = waUrl;
+    </script>
 
 </body>
 </html>
