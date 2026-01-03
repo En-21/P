@@ -13,99 +13,88 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg);
             color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         header {
             background-color: var(--primary);
-            width: 100%;
-            padding: 40px 0 70px 0;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.5rem;
+            width: 100%; padding: 40px 0 70px 0;
+            text-align: center; color: white;
+            font-weight: bold; font-size: 1.5rem;
         }
 
         .container {
-            width: 90%;
-            max-width: 450px;
-            margin-top: -55px;
-            padding-bottom: 40px;
+            width: 90%; max-width: 450px;
+            margin-top: -55px; padding-bottom: 40px;
         }
 
         .profile-card {
-            background: white;
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            background: white; border-radius: 30px;
+            padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             text-align: center;
         }
 
-        /* Limitar y dar formato a la imagen */
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 6px solid white;
-            object-fit: cover; /* Mantiene la proporción */
-            background-color: #eee;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        /* --- ESTILOS DEL CARRUSEL --- */
+        .carousel-container {
+            width: 180px; /* Un poco más grande para que luzca */
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        h1 {
-            color: var(--text);
-            font-size: 2.2rem;
-            margin: 15px 0 25px 0;
-        }
-
-        .info-list {
-            text-align: left;
+        .carousel-track {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            border-radius: 50%; /* Mantenemos el estilo circular */
+            border: 6px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            -ms-overflow-style: none;  /* Ocultar barra en IE */
+            scrollbar-width: none;  /* Ocultar barra en Firefox */
         }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none; /* Ocultar barra en Chrome/Safari */
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        /* Indicador de "desliza" */
+        .scroll-hint {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 { color: var(--text); font-size: 2.2rem; margin: 15px 0 20px 0; }
+
+        .info-list { text-align: left; display: flex; flex-direction: column; gap: 12px; }
 
         .info-item {
-            background-color: #f8fcfb;
-            padding: 15px 20px;
-            border-radius: 15px;
-            border-left: 5px solid var(--primary);
+            background-color: #f8fcfb; padding: 15px 20px;
+            border-radius: 15px; border-left: 5px solid var(--primary);
         }
 
-        .label {
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        .value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #444;
-        }
+        .label { font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 3px; }
+        .value { font-size: 1.1rem; font-weight: 600; color: #444; }
 
         .btn-whatsapp {
-            display: block;
-            background-color: var(--secondary);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 15px;
-            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+            display: block; background-color: var(--secondary); color: white;
+            text-align: center; padding: 20px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; font-size: 1.2rem;
+            margin-top: 15px; box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
         }
     </style>
 </head>
@@ -115,39 +104,18 @@
 
     <div class="container">
         <div class="profile-card">
-            <img id="petImg" class="profile-pic" alt="Foto de la mascota">
+            
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    </div>
+            </div>
+            <div class="scroll-hint" id="hintText">← Desliza para ver más →</div>
             
             <h1 id="petName"></h1>
 
             <div class="info-list">
-                <div class="info-item">
-                    <span class="label">Dueño</span>
-                    <span class="value" id="ownerName"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Teléfono</span>
-                    <span class="value" id="ownerPhone"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Edad</span>
-                    <span class="value" id="petAge"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Vacunas</span>
-                    <span class="value" id="petVax"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Color</span>
-                    <span class="value" id="petColor"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Sexo</span>
-                    <span class="value" id="petSex"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Datos extra</span>
-                    <span class="value" id="petExtra"></span>
-                </div>
+                <div id="infoContainer">
+                    </div>
             
                 <a id="waBtn" href="#" class="btn-whatsapp">
                     AVISAR POR WHATSAPP
@@ -157,49 +125,75 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE DATOS (Variables)
+        // CONFIGURACIÓN DE DATOS
         const petData = {
             name: "Jano",
-            birthDate: "2019-05-15", // Formato: AAAA-MM-DD
-            imgUrl: "../img/aneiland_01.jpeg",
+            birthDate: "2020-01-01",
+            //imagenes
+            images: [
+                "../img/aneiland_01.jpeg",
+                "../img/aneiland_02.jpeg"
+            ],
             owner: "Karina Landa Heredia",
             phone: "55 1370 9515",
-            vax: "Vermiplex, triple felina, rabia",
-            color: "Blanco con gris",
-            sex: "Macho",
-            extra: "Esterilizado"
+            details: {
+                "Vacunas": "Vermiplex, triple felina, rabia",
+                "Color": "Blanco con gris",
+                "Sexo": "Macho",
+                "Datos extra": "Esterilizado"
+            }
         };
 
-        // FUNCIÓN PARA CALCULAR EDAD
+        // CALCULAR EDAD
         function calculateAge(birthday) {
             const birthDate = new Date(birthday);
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) age--;
             return age + (age === 1 ? " año" : " años");
         }
 
-        // ASIGNACIÓN DE DATOS AL HTML
-        document.getElementById('petName').textContent = petData.name;
-        document.getElementById('petImg').src = petData.imgUrl;
-        document.getElementById('ownerName').textContent = petData.owner;
-        document.getElementById('ownerPhone').textContent = petData.phone;
-        document.getElementById('petVax').textContent = petData.vax;
-        document.getElementById('petColor').textContent = petData.color;
-        document.getElementById('petSex').textContent = petData.sex;
-        document.getElementById('petExtra').textContent = petData.extra;
-        
-        // Cálculo de edad dinámico
-        document.getElementById('petAge').textContent = calculateAge(petData.birthDate);
+        // CARGAR IMÁGENES AL CARRUSEL
+        const track = document.getElementById('carouselTrack');
+        petData.images.forEach(url => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = 'carousel-item';
+            track.appendChild(img);
+        });
 
-        // Configuración del botón de WhatsApp
-        const cleanPhone = petData.phone.replace(/\s+/g, ''); // Quita espacios del número
-        const waUrl = `https://wa.me/52${cleanPhone}?text=Hola%20${encodeURIComponent(petData.owner)},%20encontré%20a%20${petData.name}`;
-        document.getElementById('waBtn').href = waUrl;
+        // Ocultar hint si solo hay una imagen
+        if(petData.images.length <= 1) document.getElementById('hintText').style.display = 'none';
+
+        // CARGAR DATOS GENERALES
+        document.getElementById('petName').textContent = petData.name;
+        
+        const infoContainer = document.getElementById('infoContainer');
+        
+        // Función para crear bloques de info
+        const createInfoItem = (label, value) => {
+            return `<div class="info-item">
+                        <span class="label">${label}</span>
+                        <span class="value">${value}</span>
+                    </div>`;
+        };
+
+        // Insertar datos fijos y dinámicos
+        let htmlContent = createInfoItem("Dueño", petData.owner);
+        htmlContent += createInfoItem("Teléfono", petData.phone);
+        htmlContent += createInfoItem("Edad", calculateAge(petData.birthDate));
+        
+        // Insertar los detalles extras automáticamente
+        for (const [label, value] of Object.entries(petData.details)) {
+            htmlContent += createInfoItem(label, value);
+        }
+        infoContainer.innerHTML = htmlContent;
+
+        // WHATSAPP
+        const cleanPhone = petData.phone.replace(/\s+/g, '');
+        document.getElementById('waBtn').href = `https://wa.me/52${cleanPhone}?text=Hola%20${encodeURIComponent(petData.owner)},%20encontré%20a%20${petData.name}`;
+
     </script>
 
 </body>
