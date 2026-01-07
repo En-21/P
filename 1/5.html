@@ -57,7 +57,8 @@
 
         .carousel-item {
             flex: 0 0 100%; height: 180px;
-            object-fit: cover; scroll-snap-align: start;
+            object-fit: cover; 
+            scroll-snap-align: start;
         }
 
         .scroll-hint {
@@ -147,7 +148,8 @@
             name: "Bolo",
             birthDate: "", // Si no quieres edad, deja ""
             images: [
-                "../img/007_imagen_03.jpg"
+            { url: "../img/007_imagen_03.jpg", pos: "15%" },
+            { url: "../img/otra_foto.jpg", pos: "50%" }
             ],
             owner: "Alejandra Becerril",
             phone: "5539412124",
@@ -188,6 +190,8 @@
                 const img = document.createElement('img');
                 img.src = url;
                 img.className = 'carousel-item';
+
+                img.style.objectPosition = `50% ${imgObj.pos}`;
                 track.appendChild(img);
             }
         });
